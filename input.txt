@@ -1,0 +1,9 @@
+ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789
+This is a test file for reading every 100th character.
+Make sure this file has enough content for the program to work properly.
+Adding more lines to increase the file size and test the program behavior.
+
+gcc readchar.c -o readchar
+gcc copy.c -o copy
+./readchar input.txt
+./copy source.txt destination.txt
