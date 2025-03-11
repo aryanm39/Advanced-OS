@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **envp)
 int outputRedirect(char *oFile)
 {
 	int fdOut = 0;
-	
+	//if( (fdOut = open(oFile, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1 )
 	if( !(fdOut = open(oFile, O_WRONLY | O_CREAT | O_TRUNC), 0666) )
 	{
 		perror("ERROR WHILE OPENING OUTPUT FILE !!!\n");

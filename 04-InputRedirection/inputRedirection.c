@@ -24,7 +24,7 @@ int inputRedirect(char *iFile)	{
 	int numberOfCharRead = 0;
 	int numberOne = 0;
 	int numberTwo = 0;
-
+	//if( (fd = open(iFile, O_RDONLY)) == -1 )
 	if( !(fd = open(iFile, O_RDONLY)))	{
 		perror("ERROR WHILE OPENING THE FILE !!!\n\n");
 		return(-1);
