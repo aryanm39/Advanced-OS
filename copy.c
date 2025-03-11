@@ -1,28 +1,43 @@
-/*Write a program to copy one file to another using command*/
-#include<stdio.h>
-#include<stdlib.h>
-int main(int argc, char *argv[]){
-    FILE *source,*Dest;
-    char ch;
-    if(argc!=3){
-        printf("Provide all three arguments");
+#include <stdio.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[]) {
+    int fd1, fd2;
+    char str[1024];
+    int bytesRead, bytesWritten;
+
+    if (argc != 3) {
+        printf("Usage: %s <source_file> <destination_file>\n", argv[0]);
         return -1;
     }
-    source = fopen(argv[1],"r");
-    if(source==NULL){
-        printf("Error while opening the file");
+
+    fd1 = open(argv[1], O_RDONLY);
+    if (fd1 == -1) {
+        perror("Error opening source file");
         return -1;
     }
-    Dest = fopen(argv[2],"w");
-    if(Dest == NULL){
-        printf("Error while opening write file");
+
+    fd2 = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (fd2 == -1) {
+        perror("Error opening destination file");
+        close(fd1);
         return -1;
     }
-    while((ch=fgetc(source))!=EOF){
-        fputc(ch,Dest);
+
+    while ((bytesRead = read(fd1, str, sizeof(str))) > 0) {
+        bytesWritten = write(fd2, str, bytesRead);
+        if (bytesWritten != bytesRead) {
+            perror("Error writing to destination file");
+            close(fd1);
+            close(fd2);
+            return -1;
+        }
     }
-    printf("File is copied");
-    fclose(source);
-    fclose(Dest);
+
+    close(fd1);
+    close(fd2);
+    printf("File has been copied successfully.\n");
+
     return 0;
 }
